@@ -10,8 +10,12 @@ namespace FunctionApp1DemoExample.Data
     {
         //public LibraryDbContext()
         //{
-
         //}
+
+        public LibraryDbContext(DbContextOptions<LibraryDbContext> dbContextOptions): base(dbContextOptions)
+        {
+
+        }
         public DbSet<Book> Books { get; set; }
     }
 }

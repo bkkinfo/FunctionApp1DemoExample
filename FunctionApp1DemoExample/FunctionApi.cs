@@ -8,11 +8,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using FunctionApp1DemoExample.Repository;
+using FunctionApp1DemoExample.Data;
 
 namespace FunctionApp1DemoExample
 {
-    public static class FunctionApi
+    // public static class FunctionApi
+    public class FunctionApi
     {
+        //private readonly LibraryDbContext _libraryDbContext;
+        private readonly IBookRepository _booksRepository;
+
+        public FunctionApi(/** LibraryDbContext libraryDbContext , **/IBookRepository booksRepository)
+        {
+            //_libraryDbContext = libraryDbContext;
+            _booksRepository = booksRepository;
+        }
         [FunctionName("FunctionApi")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
@@ -34,15 +44,15 @@ namespace FunctionApp1DemoExample
         }
 
         [FunctionName("BooksApi")]
-        public static async Task<IActionResult> BooksApiRun(
+        public async Task<IActionResult> BooksApiRun(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             //dynamic data = JsonConvert.DeserializeObject(requestBody);
             //name = name ?? data?.name;
-            BooksRepository booksRepository = new BooksRepository();
-            string responseMessage = JsonConvert.SerializeObject(booksRepository.GetBooks());
+            //BooksRepository booksRepository = new BooksRepository();
+            string responseMessage = JsonConvert.SerializeObject(_booksRepository.GetBooks());
 
             return new OkObjectResult(responseMessage);
         }
