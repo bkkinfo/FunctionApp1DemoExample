@@ -12,24 +12,24 @@ namespace FunctionApp1DemoExample
 {
     public class Startup : FunctionsStartup
     {
-        //public override void Configure(IFunctionsHostBuilder builder)
-        //{
-        //    string sqlConnection = Environment.GetEnvironmentVariable("DevConnection");
-        //    builder.Services.AddDbContext<LibraryDbContext>(x => x.UseSqlServer(sqlConnection));
-        //    builder.Services.AddScoped<IBookRepository,BooksRepository>();
-        //}
-        public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            string sqlConnection = Configuration.GetConnectionString("DevConnection");
+            string sqlConnection = Environment.GetEnvironmentVariable("DevConnection");
             builder.Services.AddDbContext<LibraryDbContext>(x => x.UseSqlServer(sqlConnection));
             builder.Services.AddScoped<IBookRepository, BooksRepository>();
         }
+        //public IConfiguration Configuration { get; }
+        //public Startup(IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
+
+        //public override void Configure(IFunctionsHostBuilder builder)
+        //{
+        //    string sqlConnection = Configuration.GetConnectionString("DevConnection");
+        //    builder.Services.AddDbContext<LibraryDbContext>(x => x.UseSqlServer(sqlConnection));
+        //    builder.Services.AddScoped<IBookRepository, BooksRepository>();
+        //}
 
 
     }
